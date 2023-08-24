@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurgerStoresAPI", "BurgerStoresAPI\BurgerStoresAPI.csproj", "{E724E4B4-5ADA-4188-B643-00E882ECD3A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{49ABF27D-55F7-4E5C-927A-72C14541CBCA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E724E4B4-5ADA-4188-B643-00E882ECD3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E724E4B4-5ADA-4188-B643-00E882ECD3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E724E4B4-5ADA-4188-B643-00E882ECD3A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49ABF27D-55F7-4E5C-927A-72C14541CBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49ABF27D-55F7-4E5C-927A-72C14541CBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49ABF27D-55F7-4E5C-927A-72C14541CBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49ABF27D-55F7-4E5C-927A-72C14541CBCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
