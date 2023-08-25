@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Burgers;
 using ServiceContracts.DTOs.StoreDtos;
 using ServiceContracts.Stores;
+using Services.Stores;
 
 namespace BurgerStoresAPI.Controllers
 {
@@ -13,11 +14,14 @@ namespace BurgerStoresAPI.Controllers
         private readonly IStoreAdderService _adderService;
         private readonly IStoreGetterService _getterService;
         private readonly IBurgerGetterService _burgerGetterService;
-        public StoresController(IStoreAdderService storeAdderService,IStoreGetterService storeGetterService, IBurgerGetterService burgerGetterService)
+        private readonly IStoreDeleterService _deleterService;
+        public StoresController(IStoreAdderService storeAdderService,IStoreGetterService storeGetterService, IBurgerGetterService burgerGetterService, IStoreDeleterService deleterService)
         {
             _adderService = storeAdderService;
             _getterService = storeGetterService;
             _burgerGetterService = burgerGetterService;
+            _deleterService = deleterService;
+
         }
 
 
@@ -62,6 +66,20 @@ namespace BurgerStoresAPI.Controllers
             var addedStore = await _adderService.AddStore(storeAddRequestDTO);
 
             return CreatedAtAction(nameof(GetStoreById), new { id = addedStore.StoreId }, addedStore);
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteStore(int id)
+        {
+            var isDeleted = await _deleterService.DeletStoreById(id);
+
+            if (!isDeleted)
+                return NotFound("Not found");
+
+            
+            return Ok("Deleted Successfully");
+
         }
     }
 }

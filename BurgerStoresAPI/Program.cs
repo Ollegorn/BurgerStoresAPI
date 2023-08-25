@@ -24,6 +24,7 @@ builder.Services.AddScoped<IBurgerRepository, BurgerRepository>();
 builder.Services.AddScoped<IStoreGetterService, StoreGetterService>();
 builder.Services.AddScoped<IBurgerGetterService, BurgerGetterService>();
 builder.Services.AddScoped<IStoreAdderService, StoreAdderService>();
+builder.Services.AddScoped<IStoreDeleterService, StoreDeleterService>();
 
 
 builder.Services.AddEndpointsApiExplorer();

@@ -19,9 +19,15 @@ namespace Repositories
             return store;
         }
 
-        public Task<bool> DeleteStore(int storeId)
+        public async Task<bool> DeleteStore(int storeId)
         {
-            throw new NotImplementedException();
+            var storeToDelete = await _dbContext.Stores.FindAsync(storeId);
+            if (storeToDelete == null)
+                return false;
+
+            _dbContext.Stores.Remove(storeToDelete);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<Store>> GetAllStores()
