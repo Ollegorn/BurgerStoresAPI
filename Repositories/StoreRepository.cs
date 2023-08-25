@@ -44,9 +44,20 @@ namespace Repositories
             return store;
         }
 
-        public Task<bool> UpdateStore(Store store)
+        public async Task<bool> UpdateStore(Store store)
         {
-            throw new NotImplementedException();
+            var existingStore = await _dbContext.Stores.FindAsync(store.StoreId);
+            if (existingStore == null)
+                return false;
+
+            existingStore.StoreId = store.StoreId;
+            existingStore.StoreName = store.StoreName;
+            existingStore.StoreLocation = store.StoreLocation;
+            existingStore.StorePhoneNumber = store.StorePhoneNumber;
+            existingStore.BurgerIds = store.BurgerIds;
+
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

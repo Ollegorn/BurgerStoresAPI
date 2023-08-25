@@ -15,12 +15,14 @@ namespace BurgerStoresAPI.Controllers
         private readonly IStoreGetterService _getterService;
         private readonly IBurgerGetterService _burgerGetterService;
         private readonly IStoreDeleterService _deleterService;
-        public StoresController(IStoreAdderService storeAdderService,IStoreGetterService storeGetterService, IBurgerGetterService burgerGetterService, IStoreDeleterService deleterService)
+        private readonly IStoreUpdaterService _updaterService;
+        public StoresController(IStoreAdderService storeAdderService,IStoreGetterService storeGetterService, IBurgerGetterService burgerGetterService, IStoreDeleterService deleterService,IStoreUpdaterService storeUpdaterService)
         {
             _adderService = storeAdderService;
             _getterService = storeGetterService;
             _burgerGetterService = burgerGetterService;
             _deleterService = deleterService;
+            _updaterService = storeUpdaterService;
 
         }
 
@@ -68,7 +70,11 @@ namespace BurgerStoresAPI.Controllers
             return CreatedAtAction(nameof(GetStoreById), new { id = addedStore.StoreId }, addedStore);
         }
 
-
+        /// <summary>
+        /// Deletes a store.
+        /// </summary>
+        /// <param name="id">The id of the store.</param>
+        /// <returns>Not found or Deleted Successfully.</returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteStore(int id)
         {
@@ -80,6 +86,23 @@ namespace BurgerStoresAPI.Controllers
             
             return Ok("Deleted Successfully");
 
+        }
+
+        /// <summary>
+        /// Updates an existing Store.
+        /// </summary>
+        /// <param name="storeUpdateRequestDto">The id of the store to be updated and the new details.</param>
+        /// <returns>Not found or Ok message.</returns>
+        [HttpPut("id")]
+        public async Task<ActionResult> UpdateBurger(StoreUpdateRequestDto storeUpdateRequestDto)
+        {
+            //logg
+            var updateStore= await _updaterService.UpdateStore(storeUpdateRequestDto);
+
+            if (!updateStore)
+                return NotFound("Store doesn't exist");
+
+            return Ok("Updated Successfully");
         }
     }
 }
