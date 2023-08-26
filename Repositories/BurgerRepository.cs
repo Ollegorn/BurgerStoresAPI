@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.Extensions.Configuration;
 using RepositoryContracts;
 using ServiceContracts.DTOs.BurgerDtos;
 using System.Net.Http.Headers;
@@ -10,10 +11,12 @@ namespace Repositories
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IStoreRepository _storeRepository;
-        public BurgerRepository(IStoreRepository storeRepository, IHttpClientFactory httpClientFactory)
+        private readonly IConfiguration _configuration;
+        public BurgerRepository(IStoreRepository storeRepository, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _storeRepository = storeRepository;
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
         }
 
         public async Task<List<BurgerResponseWithoutIdDto>> GetBurgers(int storeId)
@@ -22,11 +25,10 @@ namespace Repositories
             //create http client
             HttpClient httpClient = _httpClientFactory.CreateClient();
 
-            var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6ImFmODQ0YzY0LTUxODMtNDMwMi1hOTA4LTY0MDQ4ZTUyNTU0OCIsInN1YiI6InVzZXJAZXhhbXBsZS5jb20iLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJqdGkiOiIzOGJiZWQzMS1hYjVhLTRlZTEtYjgxYy0wMDI4MjcyOTBiYmMiLCJpYXQiOjE2OTI5ODIyNTAsInJvbGUiOiJVc2VyIiwibmJmIjoxNjkyOTgyMjUwLCJleHAiOjE2OTMwNjg2NTB9.0WzDOj4MaFCXyDhiLoP7yYetuh3ZS5MbGuYyDpXAgug";
-            //move the token later on
+            var envJwt =  _configuration["JwtSettings:JwtKey"];
+            //setting the JWT token in the headers
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", envJwt);
 
-            // Set JWT token in the headers
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", jwtToken);
 
             //create http request
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage()
